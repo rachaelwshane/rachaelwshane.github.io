@@ -156,7 +156,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="chips">
     <li><a class="primary" href="assets/rachael-shane-resume.pdf">Download PDF</a></li>
     <li><a href="work.html">Photographs</a></li>
-    <li><a href="mailto:rachaelwshane@gmail.com">Email</a></li>
+    <li><a href="contact.html" data-mail="">Email</a></li>
   </ul>
 </header>
 
@@ -284,14 +284,14 @@ ul.task-list li input[type="checkbox"] {
   <div class="inner">
     <div>
       Rachael W. Shane · puppeteer ·
-      <a href="mailto:rachaelwshane@gmail.com">rachaelwshane@gmail.com</a>
+      <a href="contact.html" data-mail="">Email</a>
     </div>
     <div>Albany County and New York City</div>
   </div>
 </footer>
 
 <!-- ============================================================
-     THE ONLY SCRIPT THIS SITE WRITES. Two jobs, no dependency, no
+     THE ONLY SCRIPT THIS SITE WRITES. Three jobs, no dependency, no
      request.
 
      ONE, IT LABELS THE CURRENT PAGE FOR A SCREEN READER. The marker a
@@ -324,11 +324,26 @@ ul.task-list li input[type="checkbox"] {
      catches the case a resize listener misses: a font loading late and
      pushing the nav onto a second line after layout has settled.
 
-     BOTH FAIL SAFE. If the script never runs, the visible marker is
-     unaffected (it is CSS), the aria label is simply absent, and the
+     THE FIRST TWO FAIL SAFE. If the script never runs, the visible marker
+     is unaffected (it is CSS), the aria label is simply absent, and the
      --barclear fallback in the CSS (62px, the desktop height) applies, so
      the only cost is a heading landing under the bar at some narrow
-     widths. Nothing on the page depends on this file.
+     widths.
+
+     THREE, IT HOLDS THE EMAIL ADDRESS, so no page has to. Harvesting bots
+     read HTML for anything shaped like name@domain; here the address
+     exists only as two separate strings until a visitor clicks an Email
+     link, and then only long enough to hand it to the mail client. Every
+     such link carries data-mail and an href of contact.html.
+
+     THIS ONE DOES NOT FAIL SAFE, by choice. With scripts off, an Email
+     link opens the contact page and the address is nowhere on it. A
+     working fallback would have to print the address in the HTML, which is
+     the thing this exists to prevent.
+
+     IT RUNS IN ITS OWN FUNCTION because the first one returns early when
+     the bar is missing or ResizeObserver is absent, and neither should
+     cost a visitor the Email link.
      ============================================================ -->
 <script>
   (function () {
@@ -350,6 +365,17 @@ ul.task-list li input[type="checkbox"] {
     };
     new ResizeObserver(set).observe(bar);
     set();
+  })();
+
+  (function () {
+    var parts = ['rachaelwshane', 'gmail.com'];
+    var links = document.querySelectorAll('a[data-mail]');
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        window.location.href = 'mailto:' + parts.join('@');
+      });
+    }
   })();
 </script>
 
