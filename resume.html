@@ -291,7 +291,7 @@ ul.task-list li input[type="checkbox"] {
 </footer>
 
 <!-- ============================================================
-     THE ONLY SCRIPT THIS SITE WRITES. Four jobs, no dependency, and no
+     THE ONLY SCRIPT THIS SITE WRITES. Five jobs, no dependency, and no
      request until a visitor asks for one.
 
      ONE, IT LABELS THE CURRENT PAGE FOR A SCREEN READER. The marker a
@@ -362,6 +362,17 @@ ul.task-list li input[type="checkbox"] {
      THIS ONE FAILS SAFE. With scripts off the chip opens the track on
      Spotify in a new tab. A second click does nothing: the player is
      already there.
+
+     FIVE, THE SAME FOR A VIMEO VIDEO, with one difference: the player
+     replaces the link in place, because the link is the cover frame and
+     already occupies the player's box. A link carrying data-vimeo points
+     at vimeo.com/<id>; the player address is derived from it, again so no
+     embed URL sits in the HTML. autoplay=1 starts the video from the same
+     click in most browsers (the iframe's allow="autoplay" passes the
+     click's permission through); where a browser refuses, the visitor
+     presses play. dnt=1 stops the player collecting session data and
+     analytics [Vimeo's player parameters]. Focus moves into the player,
+     since the link that held it is gone. Fails safe the same way.
      ============================================================ -->
 <script>
   (function () {
@@ -412,6 +423,23 @@ ul.task-list li input[type="checkbox"] {
 
         var row = this.closest('ul');
         row.parentNode.insertBefore(player, row.nextSibling);
+      });
+    }
+  })();
+
+  (function () {
+    var films = document.querySelectorAll('a[data-vimeo]');
+    for (var i = 0; i < films.length; i++) {
+      films[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        var player = document.createElement('iframe');
+        player.title = this.getAttribute('data-vimeo');
+        player.allow = 'autoplay; fullscreen; picture-in-picture';
+        player.allowFullscreen = true;
+        player.src = this.href.replace('//vimeo.com/', '//player.vimeo.com/video/')
+                   + '?autoplay=1&dnt=1';
+        this.parentNode.replaceChild(player, this);
+        player.focus();
       });
     }
   })();

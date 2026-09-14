@@ -268,6 +268,22 @@ ul.task-list li input[type="checkbox"] {
     <p>One paragraph on what the residency offers, who it is for and how to
     apply belongs here, with a link to Hubbard Hall.</p>
   </div>
+
+  <!-- THE FILM, loaded only when asked for. What the page carries is a
+       link to the video on Vimeo wrapped round a local copy of its cover
+       frame, so the page makes no request to Vimeo on load; foot.html
+       swaps the link for Vimeo's player on click. Without scripts it is a
+       plain link to the video. The caption is Vimeo's own description of
+       it, from 2013. -->
+  <figure class="film">
+    <a href="https://vimeo.com/71226859" target="_blank" rel="noopener" data-vimeo="The Freight 2013" aria-label="Play the video The Freight 2013, 1 minute 26 seconds">
+      <img src="assets/work/freight-2013.jpg" alt="" width="640" height="360">
+      <span class="play" aria-hidden="true"></span>
+    </a>
+    <figcaption><em>The Freight</em>, 2013 (1:26). Raising funds to feed and
+    transport fifteen artists to rural upstate New York, to work on new
+    projects in a turn-of-the-century opera house.</figcaption>
+  </figure>
 </section>
 
 </main>
@@ -288,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
 </footer>
 
 <!-- ============================================================
-     THE ONLY SCRIPT THIS SITE WRITES. Four jobs, no dependency, and no
+     THE ONLY SCRIPT THIS SITE WRITES. Five jobs, no dependency, and no
      request until a visitor asks for one.
 
      ONE, IT LABELS THE CURRENT PAGE FOR A SCREEN READER. The marker a
@@ -359,6 +375,17 @@ ul.task-list li input[type="checkbox"] {
      THIS ONE FAILS SAFE. With scripts off the chip opens the track on
      Spotify in a new tab. A second click does nothing: the player is
      already there.
+
+     FIVE, THE SAME FOR A VIMEO VIDEO, with one difference: the player
+     replaces the link in place, because the link is the cover frame and
+     already occupies the player's box. A link carrying data-vimeo points
+     at vimeo.com/<id>; the player address is derived from it, again so no
+     embed URL sits in the HTML. autoplay=1 starts the video from the same
+     click in most browsers (the iframe's allow="autoplay" passes the
+     click's permission through); where a browser refuses, the visitor
+     presses play. dnt=1 stops the player collecting session data and
+     analytics [Vimeo's player parameters]. Focus moves into the player,
+     since the link that held it is gone. Fails safe the same way.
      ============================================================ -->
 <script>
   (function () {
@@ -409,6 +436,23 @@ ul.task-list li input[type="checkbox"] {
 
         var row = this.closest('ul');
         row.parentNode.insertBefore(player, row.nextSibling);
+      });
+    }
+  })();
+
+  (function () {
+    var films = document.querySelectorAll('a[data-vimeo]');
+    for (var i = 0; i < films.length; i++) {
+      films[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        var player = document.createElement('iframe');
+        player.title = this.getAttribute('data-vimeo');
+        player.allow = 'autoplay; fullscreen; picture-in-picture';
+        player.allowFullscreen = true;
+        player.src = this.href.replace('//vimeo.com/', '//player.vimeo.com/video/')
+                   + '?autoplay=1&dnt=1';
+        this.parentNode.replaceChild(player, this);
+        player.focus();
       });
     }
   })();
