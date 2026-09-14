@@ -1,0 +1,687 @@
+/* ============================================================
+   assets/site.css
+   The whole visual system for rachaelshane.github.io. There is no
+   Bootstrap and no Quarto theme underneath it (`theme: none` plus
+   `minimal: true` in _quarto.yml), so every rule here is the first and
+   last word on what it controls.
+
+   THIS FILE IS THE ONLY STYLESHEET THE SITE LOADS, and it plus the
+   woff2 faces are the only subresources any page fetches. post-render.py
+   fails the render if a page acquires an external one.
+
+   WHY THE PALETTE IS NOT SEBASTIÁN'S. This project shares its machinery
+   with ssouyris.com (same Quarto project type, same three include files,
+   same post-render.py, same publish pattern) and deliberately shares
+   none of its colour. That site is RPI institutional: navy #1D4158 and
+   RPI red #D6001C, an employer's colours on an employee's page. A
+   puppeteer's portfolio carrying them would read as a university
+   department page. What is below is warm and near-monochrome so that the
+   photographs, which are the actual content, are the only saturated
+   thing on the page.
+
+   EVERY CONTRAST RATIO IN THE COMMENTS IS COMPUTED, not estimated, from
+   the sRGB relative-luminance formula in WCAG 2.2.
+   ============================================================ */
+
+:root {
+  /* ----------------------------------------------------------
+     THE PALETTE. Six colours and two of them are greys.
+
+       --ink     #1C1A19  warm near-black. 15.67:1 on paper (AAA).
+       --paper   #F6F3EE  warm ivory, not #fff. A photograph on pure
+                          white has its own whites clipped visually;
+                          against a warm ground the print reads.
+       --accent  #9E3B22  burnt sienna. 6.12:1 on paper, so it carries
+                          body-size text and not only headings. White on
+                          it is 6.77:1, so a filled chip works too.
+       --muted   #6B625C  5.38:1 on paper (AA). Captions, dates, credits.
+       --line    #948678  3.19:1 on paper. THE BORDER COLOUR FOR ANYTHING
+                          CLICKABLE. WCAG 1.4.11 asks 3:1 of a control's
+                          visual boundary, and the decorative hairline
+                          below does not reach it, which is why there are
+                          two greys rather than one.
+       --rule    #DAD2C7  1.35:1. Decorative section hairlines only,
+                          exempt from 1.4.11. Never a control's border.
+       --tint    #EDE8E0  the one filled panel, for pull quotes.
+       --glow    #C25A34  THE FOCUS RING, and the one colour chosen for
+                          two grounds at once: 3.95:1 on paper and
+                          3.97:1 on the ink bar. A single ring colour
+                          therefore passes 1.4.11 everywhere it can
+                          appear, which a browser-default black ring
+                          does not (1.00:1 inside the bar).
+     ---------------------------------------------------------- */
+  --ink: #1C1A19;
+  --paper: #F6F3EE;
+  --accent: #9E3B22;
+  --muted: #6B625C;
+  --line: #948678;
+  --rule: #DAD2C7;
+  --tint: #EDE8E0;
+  --glow: #C25A34;
+
+  --gutter: 52px;
+
+  /* The sticky bar's height, overwritten at runtime by the script in
+     _includes/foot.html with the value it measures. 62px is the desktop
+     height [measured] and is what applies if that never runs. Declared so the
+     fallback lives in one place rather than inside the var() call. */
+  --barclear: 62px;
+
+  /* THE ONE NUMBER THAT SETS THE PAGE'S WIDTH. The content column is
+     --measure minus two gutters: 1100 - 104 = 996px. Wider than
+     ssouyris.com's 940 because this page carries a three-up image grid
+     and 996/3 leaves each figure 320px, which is where a 4:3 performance
+     still stops losing faces. */
+  --measure: 1100px;
+
+  /* The headshot's column in the hero grid. */
+  --portrait-w: 340px;
+}
+
+/* ------------------------------------------------------------
+   FACES. Two families, vendored, no network.
+
+   EB Garamond carries the name, the headings and the opening bio. It is
+   an old-style with real italics, which matters here: production titles
+   are italicised by theatre convention and this page is full of them.
+
+   Source Sans 3 carries the bar, the captions, the credits and every
+   piece of metadata. The split is the hierarchy: serif for what is read,
+   sans for what is scanned.
+
+   unicode-range ON EVERY FACE, so the latin-ext file is fetched only by
+   a page that actually contains a character in it. Theatre credits
+   collect accents (Charleville-Mézières, Théâtre, Muñoz), so the ext
+   faces are vendored rather than left to a system fallback, and they
+   cost nothing on a page that needs none of them.
+   ------------------------------------------------------------ */
+@font-face {
+  font-family: "EB Garamond"; font-style: normal; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/eb-garamond-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
+    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
+    U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "EB Garamond"; font-style: normal; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/eb-garamond-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
+    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
+    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "EB Garamond"; font-style: normal; font-weight: 600;
+  font-display: swap;
+  src: url("fonts/eb-garamond-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
+    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
+    U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "EB Garamond"; font-style: normal; font-weight: 600;
+  font-display: swap;
+  src: url("fonts/eb-garamond-latin-ext-600-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
+    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
+    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "EB Garamond"; font-style: italic; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/eb-garamond-latin-400-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
+    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
+    U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "EB Garamond"; font-style: italic; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/eb-garamond-latin-ext-400-italic.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
+    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
+    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: normal; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
+    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
+    U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: normal; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
+    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
+    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: normal; font-weight: 600;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
+    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
+    U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: normal; font-weight: 600;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-ext-600-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
+    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
+    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: italic; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-400-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
+    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
+    U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3"; font-style: italic; font-weight: 400;
+  font-display: swap;
+  src: url("fonts/source-sans-3-latin-ext-400-italic.woff2") format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
+    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
+    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------
+   Reset and ground
+   ------------------------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  /* Kerning and standard ligatures, which EB Garamond has and which are
+     off by default in some engines at display sizes. */
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* THE FOCUS RING, set once and never removed.
+   :focus-visible rather than :focus, so a mouse click does not leave a
+   ring behind but a Tab key does. --glow is 3.95:1 on paper and 3.97:1
+   on the ink bar, so the same ring satisfies WCAG 1.4.11 in both places
+   [computed]. The offset keeps it off the glyphs. */
+:focus-visible {
+  outline: 3px solid var(--glow);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* The skip link: off-screen until focused, then the first thing in the
+   bar. WCAG 2.4.1. Not display:none, which would take it out of the tab
+   order and defeat the purpose. */
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--ink); color: #fff;
+  padding: 12px 18px; font-weight: 600; text-decoration: none;
+}
+.skip:focus { left: 0; }
+
+.inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ------------------------------------------------------------
+   LINKS. No underline at rest, EXCEPT inside running prose.
+
+   WCAG 1.4.1 (Use of Color, Level A) is the reason for the exception
+   rather than a preference. Colour alone may not be the only way a link
+   is identified, and inside a paragraph a reader has no other cue: the
+   word sits in a line of other words. In a chip row, a nav bar or a
+   credit list the link IS the element, its shape and position say so,
+   and an underline there is noise.
+
+   The underline is the accent at 34% so it reads as a hint rather than a
+   rule, and thickens to full strength on hover.
+   ------------------------------------------------------------ */
+a { color: var(--accent); text-decoration: none; }
+
+main p a, main .lede a, .credit dd a, .about a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(158, 59, 34, .34);
+  text-underline-offset: 3px;
+}
+main p a:hover, main .lede a:hover, .credit dd a:hover, .about a:hover {
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+/* ------------------------------------------------------------
+   THE STICKY BAR
+   ------------------------------------------------------------ */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--ink);
+  /* The hairline is the accent, thin. On ink it is 2.56:1 [computed],
+     under the 3:1 a functional indicator needs, which is exactly why it
+     is decoration here and the current-page marker below is white. */
+  border-bottom: 3px solid var(--accent);
+}
+.topbar .inner {
+  display: flex; align-items: baseline;
+  justify-content: space-between; flex-wrap: wrap;
+  gap: 4px 24px;
+}
+
+.brand {
+  color: #fff; text-decoration: none;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.28rem; font-weight: 400;
+  letter-spacing: .01em;
+  padding: 13px 0;
+}
+.brand:hover { color: var(--paper); }
+
+/* The nav's own negative margin plus symmetric padding on the items.
+   WHY NOT `:last-child { padding-right: 0 }`, which is the obvious way
+   to flush the last item to the gutter: it makes that item's padding box
+   asymmetric, and the current-page marker below is drawn on the padding
+   box, so the marker under the last item sits off-centre by the amount
+   removed. Pulling the whole nav right by the padding instead keeps
+   every item symmetric and still lands the last one on the gutter. */
+.topbar nav { display: flex; flex-wrap: wrap; margin-right: -15px; }
+
+.topbar nav a {
+  color: #fff; text-decoration: none;
+  font-size: .94rem; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+  padding: 15px;
+}
+.topbar nav a:hover { color: var(--paper); box-shadow: inset 0 -2px 0 var(--accent); }
+
+/* THE CURRENT-PAGE MARKER, and it is WHITE for a measured reason.
+   The obvious choice is the accent, to echo the rule under the bar. On
+   the ink bar the accent is 2.56:1 [computed], below the 3:1 WCAG 1.4.11
+   asks of a state indicator, and it would sit two pixels above a 3px
+   accent rule of its own colour and vanish into it. White is 17.34:1.
+
+   MATCHED BY THE ONE-LINE <style> EACH PAGE WRITES IN ITS OWN BODY, by
+   id: `#nav-work{box-shadow:inset 0 -3px 0 #fff}`. One include serves
+   four pages, so the page has to say which item is its own; this rule
+   holds the shape so the pages only restate the id.
+
+   An inset shadow rather than a border: a border would paint OUTSIDE the
+   link's box and therefore on top of the bar's own accent rule, which is
+   where the same marker on ssouyris.com was invisible for weeks.
+
+   DELIBERATELY NOT `[aria-current="page"]`. The script in foot.html sets
+   that attribute by reading this declaration back off the computed
+   style; if the attribute also drew the shadow, the script would be
+   reading its own output. */
+.topbar nav a.is-current {
+  box-shadow: inset 0 -3px 0 #fff;
+}
+
+/* ------------------------------------------------------------
+   PAGE FURNITURE
+   ------------------------------------------------------------ */
+/* THE CONTENT COLUMN, set on <main> itself rather than on a wrapper each
+   page has to remember to write. The sibling project puts it on a `.band`
+   div inside every page, which works and which every new page can forget;
+   there is nothing on this site that wants to escape the column, so the
+   column lives on the element that holds all of it. The bar and the
+   footer reach the same width through their own .inner, because those two
+   need a full-bleed background behind a contained row. */
+main {
+  display: block;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* QUARTO BUILDS ITS OWN <header id="title-block-header"> from the YAML
+   `title:` and puts it at the top of the body, which on this site means a
+   SECOND copy of the page's heading sitting above the hero. The title
+   stays in the YAML because it is what fills <title>, the browser tab and
+   og:title; what is hidden is only Quarto's rendering of it.
+
+   `!important` because Quarto's own stylesheet is not loaded here to be
+   overridden, but the element carries inline display handling in some
+   versions and this has to win regardless. */
+header#title-block-header { display: none !important; }
+
+h1, h2, h3 {
+  font-family: "EB Garamond", Georgia, serif;
+  font-weight: 600; line-height: 1.15;
+  margin: 0 0 .4em;
+  letter-spacing: -.005em;
+}
+h1 { font-size: 2.9rem; }
+h2 { font-size: 1.72rem; }
+h3 { font-size: 1.22rem; font-weight: 600; }
+
+p { margin: 0 0 1.05em; }
+
+/* Sections, and the scroll-margin that makes an in-page jump land
+   BELOW the sticky bar rather than under it. --barclear is measured at
+   runtime; see _includes/foot.html for why a fixed value cannot work. */
+section.sec {
+  padding: 40px 0 4px;
+  border-top: 1px solid var(--rule);
+  margin-top: 34px;
+}
+section.sec[id] { scroll-margin-top: calc(var(--barclear, 62px) + 18px); }
+section.sec > h2 { margin-bottom: .55em; }
+
+/* The small-caps eyebrow above a section, in the sans. */
+.eyebrow {
+  font-size: .78rem; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+/* ------------------------------------------------------------
+   THE HERO. Three grid children in two rows: the name and role sit
+   beside the headshot, the bio runs under the name in the same column.
+   The photograph therefore aligns with the top of the type rather than
+   floating, and the bio's measure is the text column's, not the page's.
+   ------------------------------------------------------------ */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr var(--portrait-w);
+  grid-template-rows: auto auto;
+  column-gap: 44px;
+  padding: 52px 0 8px;
+}
+.hero .name { grid-column: 1; grid-row: 1; }
+.hero .shot { grid-column: 2; grid-row: 1 / span 2; }
+.hero .about { grid-column: 1; grid-row: 2; }
+
+.hero h1 { margin: 0 0 .18em; }
+
+.hero .role {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: .95rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.1em;
+}
+
+/* The opening paragraph is set in the serif and larger than body copy.
+   It is the one piece of prose a visitor is certain to read. */
+.hero .lede {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.34rem; line-height: 1.5;
+  margin: 0 0 1em;
+}
+
+/* THE WHOLE BIO IS SERIF, not only the opening line. Setting the lede in
+   EB Garamond and the paragraphs under it in Source Sans 3 is a standard
+   editorial device, and it is wrong here: a stand-first is a separate
+   sentence written to pull a reader in, while this is one continuous
+   biography whose first line happens to be short. Splitting the family
+   mid-thought reads as a mistake rather than as hierarchy. The size does
+   the hierarchy instead. */
+.hero .about p {
+  max-width: 34em;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.12rem;
+  line-height: 1.52;
+}
+.hero .about p:last-child { margin-bottom: 0; }
+
+.shot img {
+  width: 100%;
+  /* A 2:3 crop, which is what a headshot is. The frame is fixed so the
+     hero's height does not jump when the photograph is replaced with one
+     of different proportions, and object-fit crops rather than
+     distorting. */
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--tint);
+}
+.shot figcaption {
+  font-size: .78rem; color: var(--muted);
+  margin: 7px 0 0;
+}
+.shot { margin: 0; }
+
+/* ------------------------------------------------------------
+   CHIPS: the row of outbound links.
+   The border is --line at 3.19:1 on paper [computed], not the decorative
+   --rule at 1.35:1. WCAG 1.4.11 asks 3:1 of the visual boundary of a
+   control, and a chip is a control.
+   ------------------------------------------------------------ */
+.chips { display: flex; flex-wrap: wrap; gap: 9px; margin: 24px 0 0; padding: 0; list-style: none; }
+.chips a {
+  display: inline-block;
+  border: 1px solid var(--line);
+  background: #fff; color: var(--accent);
+  padding: 6px 14px; border-radius: 999px;
+  font-size: .87rem; font-weight: 600; text-decoration: none;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+}
+.chips a:hover {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+/* The first chip is filled from the start: it is the one thing a casting
+   director came for. White on the accent is 6.77:1 [computed]. */
+.chips a.primary {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.chips a.primary:hover { background: var(--ink); border-color: var(--ink); }
+
+/* ------------------------------------------------------------
+   THE CREDIT LIST, which is the real content of a performer's site.
+
+   A <dl> rather than a table or a list of paragraphs, because that is
+   what it is: a term (the production, italic by theatre convention) and
+   its description (the company, the director, the year). The left gutter
+   holds the year so a reader scanning for recent work reads down one
+   column.
+   ------------------------------------------------------------ */
+.credits { margin: 0; }
+.credit {
+  display: grid;
+  grid-template-columns: 5.5em 1fr;
+  gap: 4px 22px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.credit:first-of-type { border-top: 1px solid var(--rule); }
+
+.credit dt {
+  grid-column: 1;
+  font-size: .88rem; font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: .22em;
+}
+.credit dd { grid-column: 2; margin: 0; }
+
+.credit .work {
+  font-family: "EB Garamond", Georgia, serif;
+  font-style: italic; font-size: 1.16rem; font-weight: 600;
+  color: var(--ink);
+  display: block; margin: 0 0 1px;
+}
+.credit .who { font-size: .92rem; color: var(--muted); }
+
+/* ------------------------------------------------------------
+   THE GALLERY. auto-fill rather than a fixed column count, so the grid
+   reflows on its own and there is no media query for it: each figure
+   gets at least 280px and the row holds as many as fit. On the 996px
+   content column that is three; at 700px, two; on a phone, one.
+   ------------------------------------------------------------ */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px 26px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.gallery figure { margin: 0; }
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--tint);
+}
+.gallery figcaption {
+  margin: 9px 0 0;
+  font-size: .89rem;
+  line-height: 1.45;
+}
+.gallery figcaption .work {
+  font-family: "EB Garamond", Georgia, serif;
+  font-style: italic; font-size: 1.04rem; font-weight: 600;
+  display: block;
+}
+.gallery figcaption .who { color: var(--muted); font-size: .85rem; }
+
+/* A figure the reader should look at on its own, spanning the grid. */
+.gallery .wide { grid-column: 1 / -1; }
+.gallery .wide img { aspect-ratio: 16 / 9; }
+
+/* ------------------------------------------------------------
+   THE PULL PANEL: one filled block per page at most, for a quotation or
+   the single thing the page exists to say. Ink on tint is 14.22:1
+   [computed].
+   ------------------------------------------------------------ */
+.panel {
+  background: var(--tint);
+  border-left: 3px solid var(--accent);
+  padding: 22px 26px;
+  margin: 26px 0;
+  border-radius: 0 4px 4px 0;
+}
+.panel p { margin: 0 0 .6em; }
+.panel p:last-child { margin-bottom: 0; }
+.panel .lede {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.22rem; line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   THE SECTION INDEX, on pages long enough to need one.
+   ------------------------------------------------------------ */
+.jumps {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 8px 15px;
+  margin: 28px 0 0; padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+.jumps .eyebrow { margin: 0; }
+.jumps a { font-size: .92rem; font-weight: 600; }
+.jumps a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ------------------------------------------------------------
+   A PLACEHOLDER MARKER. Every block on the site that carries content
+   lifted from the 2018 Wix page rather than something Rachael has
+   confirmed is wrapped in this, so nothing stale can be published by
+   accident. Deleting the class is the last step before the site goes
+   live; publish.sh counts what is left and says so.
+   ------------------------------------------------------------ */
+.todo {
+  position: relative;
+  border-left: 3px dashed var(--line);
+  padding-left: 16px;
+  margin-left: -19px;
+}
+.todo::after {
+  content: "needs Rachael's update";
+  display: block;
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--line);
+  margin-top: 6px;
+
+  /* THE MARKED ELEMENT IS SOMETIMES A GRID OR FLEX CONTAINER, and a
+     ::after on one of those is not an overlay: it is another ITEM. On
+     <ul class="gallery todo"> holding a single photograph the label
+     landed in the second column, beside the image, rather than under the
+     row [measured]. These two lines make it take a full row in either
+     formatting context; they are inert everywhere else. */
+  grid-column: 1 / -1;
+  flex-basis: 100%;
+}
+@media print { .todo { border-left: none; padding-left: 0; margin-left: 0; }
+               .todo::after { display: none; } }
+
+/* ------------------------------------------------------------
+   FOOTER
+   ------------------------------------------------------------ */
+.sitefoot {
+  margin-top: 56px;
+  border-top: 3px solid var(--accent);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: .9rem;
+}
+.sitefoot .inner {
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  gap: 8px 26px;
+  padding-top: 22px; padding-bottom: 26px;
+}
+.sitefoot a { color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4); }
+.sitefoot a:hover { border-bottom-color: #fff; }
+
+/* ------------------------------------------------------------
+   Narrow. One breakpoint at 900px for the hero and the gutters; the
+   gallery needs none, because auto-fill reflows on its own.
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+  :root { --gutter: 24px; --portrait-w: 240px; }
+  h1 { font-size: 2.35rem; }
+  .hero { column-gap: 28px; padding-top: 36px; }
+}
+
+@media (max-width: 620px) {
+  /* The headshot stops being a column and becomes the first row, at a
+     width a phone can show a face at. */
+  .hero { grid-template-columns: 1fr; row-gap: 20px; }
+  .hero .name  { grid-row: 2; }
+  .hero .shot  { grid-column: 1; grid-row: 1; max-width: 210px; }
+  .hero .about { grid-row: 3; }
+
+  h1 { font-size: 2.05rem; }
+  .hero .lede { font-size: 1.18rem; }
+
+  /* The bar's items get the full gutter as tap target, and the negative
+     margins put their padding boxes back on the page's edges. The
+     `:last-child` selector is NOT used here: it would outspecify this
+     rule and reintroduce the off-centre marker documented above. */
+  .topbar nav { margin-left: -14px; margin-right: -14px; }
+  .topbar nav a { padding: 11px 14px; }
+
+  /* The credit stacks: year over title. BOTH CHILDREN MUST BE PUT BACK
+     IN COLUMN 1. `.credit dd { grid-column: 2 }` from the desktop rule
+     still applies here, and against a single-column grid that is not
+     ignored: it creates an IMPLICIT second column and the title lands in
+     it, hard against the right edge, while column one sits empty
+     [measured at 390px]. Resetting the placement is what actually stacks
+     them. */
+  .credit { grid-template-columns: 1fr; gap: 2px; }
+  .credit dt, .credit dd { grid-column: 1; }
+  .credit dt { padding-top: 0; }
+}
+
+@media print {
+  .topbar, .sitefoot, .skip, .jumps { display: none; }
+  body { background: #fff; font-size: 11pt; }
+  a { color: var(--ink); text-decoration: none; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+}

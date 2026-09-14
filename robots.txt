@@ -1,0 +1,6 @@
+# A working performer's portfolio. It should be found.
+#
+# Nothing here restricts access. Anyone with a URL can read any of it.
+
+User-agent: *
+Allow: /
