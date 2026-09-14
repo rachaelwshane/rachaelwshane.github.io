@@ -305,8 +305,8 @@ ul.task-list li input[type="checkbox"] {
 </footer>
 
 <!-- ============================================================
-     THE ONLY SCRIPT THIS SITE WRITES. Three jobs, no dependency, no
-     request.
+     THE ONLY SCRIPT THIS SITE WRITES. Four jobs, no dependency, and no
+     request until a visitor asks for one.
 
      ONE, IT LABELS THE CURRENT PAGE FOR A SCREEN READER. The marker a
      sighted reader sees is a white underline in the bar, drawn in CSS. A
@@ -358,6 +358,24 @@ ul.task-list li input[type="checkbox"] {
      IT RUNS IN ITS OWN FUNCTION because the first one returns early when
      the bar is missing or ResizeObserver is absent, and neither should
      cost a visitor the Email link.
+
+     FOUR, IT PUTS A SPOTIFY PLAYER ON THE PAGE WHEN ONE IS ASKED FOR. A
+     chip carrying data-spotify is an ordinary link to a track on Spotify.
+     On click the script inserts Spotify's embed player under the chip row
+     instead of leaving the page; the visitor then presses play in it.
+     Browsers refuse sound before a click, so nothing plays by itself.
+
+     NOTHING FROM SPOTIFY LOADS WITH THE PAGE. The player is an iframe
+     from open.spotify.com, with Spotify's own scripts and cookies inside
+     it, and it exists only after the click. Until then the page makes no
+     external request, which is the property post-render.py's scan guards;
+     the scan ignores <a href> because a link fetches nothing, and the
+     embed address is derived from that href here rather than written into
+     the HTML.
+
+     THIS ONE FAILS SAFE. With scripts off the chip opens the track on
+     Spotify in a new tab. A second click does nothing: the player is
+     already there.
      ============================================================ -->
 <script>
   (function () {
@@ -388,6 +406,26 @@ ul.task-list li input[type="checkbox"] {
       links[i].addEventListener('click', function (e) {
         e.preventDefault();
         window.location.href = 'mailto:' + parts.join('@');
+      });
+    }
+  })();
+
+  (function () {
+    var chips = document.querySelectorAll('a[data-spotify]');
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].addEventListener('click', function (e) {
+        e.preventDefault();
+        if (this.getAttribute('data-open')) return;
+        this.setAttribute('data-open', '1');
+
+        var player = document.createElement('iframe');
+        player.className = 'spotify';
+        player.title = 'Spotify player: ' + this.getAttribute('data-spotify');
+        player.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+        player.src = this.href.replace('/track/', '/embed/track/');
+
+        var row = this.closest('ul');
+        row.parentNode.insertBefore(player, row.nextSibling);
       });
     }
   })();

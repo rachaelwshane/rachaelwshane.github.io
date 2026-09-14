@@ -483,6 +483,16 @@ section.sec > h2 { margin-bottom: .55em; }
 }
 .chips a.primary:hover { background: var(--ink); border-color: var(--ink); }
 
+/* THE SPOTIFY PLAYER, inserted under a chip row by foot.html when a
+   data-spotify chip is clicked. 152px is the height Spotify's own embed
+   code asks for [its oEmbed response for the track]; the width stops at
+   the bio's 34em measure so the player lines up with the text above it. */
+.spotify {
+  display: block;
+  width: 100%; max-width: 34em; height: 152px;
+  margin: 18px 0 0; border: 0; border-radius: 12px;
+}
+
 /* ------------------------------------------------------------
    THE CREDIT LIST, which is the real content of a performer's site.
 
