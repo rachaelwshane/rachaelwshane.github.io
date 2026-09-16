@@ -148,9 +148,9 @@ ul.task-list li input[type="checkbox"] {
 
 <style>#nav-resume { box-shadow: inset 0 -3px 0 #fff; }</style>
 
-<header class="hero" style="display:block; padding-bottom:0;">
+<header class="page-head stage">
   <h1>Résumé</h1>
-  <p class="lede" style="max-width:34em;">Performance, programming and
+  <p class="lede">Performance, programming and
   training.</p>
 
   <ul class="chips">
@@ -158,6 +158,14 @@ ul.task-list li input[type="checkbox"] {
     <li><a href="work.html">Photographs</a></li>
     <li><a href="contact.html" data-mail="">Email</a></li>
   </ul>
+
+  <nav class="jumps" aria-label="On this page">
+    <p class="eyebrow">On this page</p>
+    <a href="#performance">Performance</a>
+    <a href="#programming">Programming</a>
+    <a href="#training">Training</a>
+    <a href="work.html">Photographs</a>
+  </nav>
 </header>
 
 <!-- ============================================================
@@ -166,9 +174,9 @@ ul.task-list li input[type="checkbox"] {
      credit is, so it is what the markup says, and a screen reader reads
      the pairing rather than two unrelated runs of text.
 
-     THE YEAR IS THE <dt> AND SITS IN THE LEFT GUTTER, so a director
-     scanning for recent work reads down one column instead of hunting for
-     a date at the end of each line.
+     THE YEAR IS THE <dt>. site.css sets it flush right at the end of a
+     dotted leader, as a programme would, so a director scanning for
+     recent work reads down one column instead of hunting for a date.
 
      EVERYTHING BELOW IS FROM THE 2018 WIX PAGE and stops there. The .todo
      wrapper says so on the page itself and publish.sh counts what is
@@ -264,14 +272,6 @@ ul.task-list li input[type="checkbox"] {
   </dl>
   </div>
 </section>
-
-<div class="jumps">
-  <p class="eyebrow">On this page</p>
-  <a href="#performance">Performance</a>
-  <a href="#programming">Programming</a>
-  <a href="#training">Training</a>
-  <a href="work.html">Photographs</a>
-</div>
 
 </main>
 <!-- ============================================================

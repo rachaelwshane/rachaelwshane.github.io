@@ -155,12 +155,12 @@ ul.task-list li input[type="checkbox"] {
 <style>#nav-home { box-shadow: inset 0 -3px 0 #fff; }</style>
 
 <!-- ============================================================
-     THE HERO. Three grid children, two rows: .name and .shot on row one,
-     .about under .name on row two. The photograph therefore aligns with
-     the top of the name rather than floating beside a block of text, and
-     the bio's measure is the text column's 34em rather than the page's.
+     THE STAGE. Three grid children placed by grid area in site.css: the
+     name at the lower left, the portrait at the right, the links under
+     the name. On a phone the portrait moves between name and links. The
+     bio is not on the stage: it is read, so it is set on paper below.
      ============================================================ -->
-<header class="hero">
+<header class="hero stage">
   <div class="name">
     <h1>Rachael W. Shane</h1>
     <p class="role">Puppeteer</p>
@@ -170,40 +170,42 @@ ul.task-list li input[type="checkbox"] {
     <img src="assets/rachael_shane_headshot.jpg" alt="Rachael W. Shane" width="680" height="1020">
   </figure>
 
-  <div class="about">
-    <div class="todo">
-      <p class="lede">Rachael W. Shane is a New York based
-      puppeteer.</p>
-
-      <p>She has performed with Basil Twist (<em>The Rite of Spring</em>, 2013;
-      <em>Sister’s Follies</em>, 2015; <em>Symphonie Fantastique</em>,
-      2018), Julie Atlas Muz and Matt Fraser (<em>Jack and the Beanstalk</em>,
-      2017, 2018), Chris Green (<em>Firebird</em>, 2013, 2015), Lake Simons
-      (<em>Carnival of the Animals</em>, 2015–18; <em>The Jewel
-      Casket</em>, 2014) and Roman Paska (<em>The Fall of the House of
-      Usher</em>, MASS MoCA, 2018), as well as multiple projects with Puppet
-      Kitchen. She was part of the interactive theatrical production
-      <em>Pips Island</em>, 2016–17.</p>
-
-      <p>She runs an artists’ residency programme, The Freight Project,
-      at Hubbard Hall in upstate New York. She holds a BFA in Drama from the
-      UNC School of the Arts, and participated in the 2018 St. Ann’s
-      Puppet Lab.</p>
-    </div>
-
-    <ul class="chips">
-      <li><a class="primary" href="resume.html">Résumé</a></li>
-      <li><a href="work.html">Selected work</a></li>
-      <li><a href="contact.html" data-mail="">Email</a></li>
-      <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
-      <li><a href="#" target="_blank" rel="noopener">Vimeo</a></li>
-      <!-- LAST IN THE ROW so the player, which foot.html inserts after the
-           row on click, is the next thing Tab reaches. Without scripts this
-           is a plain link to the track on Spotify. -->
-      <li><a href="https://open.spotify.com/track/6Eug7nfecV2CSdqEvdyeja" target="_blank" rel="noopener" data-spotify="Rachel, by Al Martino">Play “Rachel”</a></li>
-    </ul>
-  </div>
+  <ul class="chips">
+    <li><a class="primary" href="resume.html">Résumé</a></li>
+    <li><a href="work.html">Selected work</a></li>
+    <li><a href="contact.html" data-mail="">Email</a></li>
+    <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="#" target="_blank" rel="noopener">Vimeo</a></li>
+    <!-- LAST IN THE ROW so the player, which foot.html inserts after the
+         row on click, is the next thing Tab reaches. Without scripts this
+         is a plain link to the track on Spotify. -->
+    <li><a href="https://open.spotify.com/track/6Eug7nfecV2CSdqEvdyeja" target="_blank" rel="noopener" data-spotify="Rachel, by Al Martino">Play “Rachel”</a></li>
+  </ul>
 </header>
+
+<section class="sec" id="about">
+  <p class="eyebrow">About</p>
+
+  <div class="bio todo">
+    <p class="lede">Rachael W. Shane is a New York based
+    puppeteer.</p>
+
+    <p>She has performed with Basil Twist (<em>The Rite of Spring</em>, 2013;
+    <em>Sister’s Follies</em>, 2015; <em>Symphonie Fantastique</em>,
+    2018), Julie Atlas Muz and Matt Fraser (<em>Jack and the Beanstalk</em>,
+    2017, 2018), Chris Green (<em>Firebird</em>, 2013, 2015), Lake Simons
+    (<em>Carnival of the Animals</em>, 2015–18; <em>The Jewel
+    Casket</em>, 2014) and Roman Paska (<em>The Fall of the House of
+    Usher</em>, MASS MoCA, 2018), as well as multiple projects with Puppet
+    Kitchen. She was part of the interactive theatrical production
+    <em>Pips Island</em>, 2016–17.</p>
+
+    <p>She runs an artists’ residency programme, The Freight Project,
+    at Hubbard Hall in upstate New York. She holds a BFA in Drama from the
+    UNC School of the Arts, and participated in the 2018 St. Ann’s
+    Puppet Lab.</p>
+  </div>
+</section>
 
 <!-- ============================================================
      SELECTED WORK on the home page, four entries rather than the full
