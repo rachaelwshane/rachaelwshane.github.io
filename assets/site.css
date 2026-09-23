@@ -105,118 +105,18 @@
 }
 
 /* ------------------------------------------------------------
-   FACES. Two families, vendored, no network.
+   FACES. Arial, from the visitor's own system, no files and no network.
 
-   EB Garamond carries the name, the headings and the opening bio. It is
-   an old-style with real italics, which matters here: production titles
-   are italicised by theatre convention and this page is full of them.
+   Arial carries everything: the name, the headings, the bio, the bar,
+   the captions and the credits. The hierarchy is carried by size, weight,
+   colour and the spaced capitals of the labels. Its italic is a real
+   one, which matters here: production titles are italicised by theatre
+   convention and this site is full of them.
 
-   Source Sans 3 carries the bar, the captions, the credits and every
-   piece of metadata. The split is the hierarchy: serif for what is read,
-   sans for what is scanned.
-
-   unicode-range ON EVERY FACE, so the latin-ext file is fetched only by
-   a page that actually contains a character in it. Theatre credits
-   collect accents (Charleville-Mézières, Théâtre, Muñoz), so the ext
-   faces are vendored rather than left to a system fallback, and they
-   cost nothing on a page that needs none of them.
+   Arial is Monotype's and cannot be vendored, so there is no @font-face.
+   macOS, iOS and Windows ship it. Android and Linux do not; Liberation
+   Sans and Arimo are metric-compatible with it, so line breaks match.
    ------------------------------------------------------------ */
-@font-face {
-  font-family: "EB Garamond"; font-style: normal; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/eb-garamond-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
-    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
-    U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "EB Garamond"; font-style: normal; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/eb-garamond-latin-ext-400-normal.woff2") format("woff2");
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
-    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
-    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: "EB Garamond"; font-style: normal; font-weight: 600;
-  font-display: swap;
-  src: url("fonts/eb-garamond-latin-600-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
-    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
-    U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "EB Garamond"; font-style: normal; font-weight: 600;
-  font-display: swap;
-  src: url("fonts/eb-garamond-latin-ext-600-normal.woff2") format("woff2");
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
-    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
-    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: "EB Garamond"; font-style: italic; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/eb-garamond-latin-400-italic.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
-    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
-    U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "EB Garamond"; font-style: italic; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/eb-garamond-latin-ext-400-italic.woff2") format("woff2");
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
-    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
-    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: "Source Sans 3"; font-style: normal; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/source-sans-3-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
-    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
-    U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "Source Sans 3"; font-style: normal; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/source-sans-3-latin-ext-400-normal.woff2") format("woff2");
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
-    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
-    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: "Source Sans 3"; font-style: normal; font-weight: 600;
-  font-display: swap;
-  src: url("fonts/source-sans-3-latin-600-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
-    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
-    U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "Source Sans 3"; font-style: normal; font-weight: 600;
-  font-display: swap;
-  src: url("fonts/source-sans-3-latin-ext-600-normal.woff2") format("woff2");
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
-    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
-    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: "Source Sans 3"; font-style: italic; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/source-sans-3-latin-400-italic.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,
-    U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,
-    U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: "Source Sans 3"; font-style: italic; font-weight: 400;
-  font-display: swap;
-  src: url("fonts/source-sans-3-latin-ext-400-italic.woff2") format("woff2");
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,
-    U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,
-    U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
 
 /* ------------------------------------------------------------
    Reset and ground
@@ -229,7 +129,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: Arial, "Liberation Sans", Arimo, "Helvetica Neue", Helvetica, sans-serif;
   font-size: 17px;
   line-height: 1.6;
   font-kerning: normal;
@@ -298,7 +198,6 @@ main p a:hover, .credit dd a:hover, .bio a:hover {
 
 .brand {
   color: #fff; text-decoration: none;
-  font-family: "EB Garamond", Georgia, serif;
   font-size: 1.3rem; font-weight: 400;
   letter-spacing: .01em;
   padding: 13px 0;
@@ -353,7 +252,6 @@ main {
 header#title-block-header { display: none !important; }
 
 h1, h2, h3 {
-  font-family: "EB Garamond", Georgia, serif;
   font-weight: 400; line-height: 1.1;
   margin: 0 0 .4em;
   letter-spacing: -.01em;
@@ -363,16 +261,13 @@ h1 { font-size: clamp(2.6rem, 1.5rem + 3.2vw, 4.2rem); line-height: 1; }
 h2 { font-size: clamp(1.75rem, 1.35rem + 1vw, 2.2rem); }
 h3 { font-size: 1.3rem; }
 
-/* 400 AND NOT 600 FOR HEADINGS. At display sizes EB Garamond's regular
-   has the contrast between thick and thin strokes that makes it look
-   like printed type; the semibold fills the counters in and reads as a
-   word processor's bold. */
+/* 400 AND NOT 600 FOR HEADINGS. At display sizes the regular is weight
+   enough; the semibold is kept for the small spaced labels. */
 
 p { margin: 0 0 1.05em; }
 
-/* The serif paragraph a visitor is certain to read. */
+/* The paragraph a visitor is certain to read. */
 .lede {
-  font-family: "EB Garamond", Georgia, serif;
   font-size: 1.42rem; line-height: 1.42;
   max-width: 30em;
 }
@@ -467,10 +362,12 @@ section.sec[id] { scroll-margin-top: calc(var(--barclear, 61px) + 24px); }
 /* The Spotify player lands after the chip row when asked for. */
 .hero > .spotify { grid-column: 1; }
 
+/* In capitals by CSS, so the markup, the page title and screen readers
+   keep the name as written. Capitals want tracking opened, not closed. */
 .hero h1 {
   font-size: clamp(3rem, 1.2rem + 5.4vw, 5.6rem);
   line-height: .96;
-  letter-spacing: -.02em;
+  letter-spacing: .02em; text-transform: uppercase;
   margin: 0 0 .32em;
 }
 
@@ -532,7 +429,6 @@ main > .stage:last-child { margin-bottom: calc(-1 * var(--section)); }
    ------------------------------------------------------------ */
 .bio p {
   max-width: 34em;
-  font-family: "EB Garamond", Georgia, serif;
   font-size: 1.2rem; line-height: 1.58;
 }
 .bio p.lede { font-size: 1.55rem; line-height: 1.35; margin-bottom: .8em; }
@@ -594,10 +490,8 @@ main > .stage:last-child { margin-bottom: calc(-1 * var(--section)); }
    first line, and the leader is an empty flex item, whose baseline is its
    bottom edge, so the dots sit on the same line.
 
-   400 ITALIC, NOT 600. Only the regular italic of EB Garamond is
-   vendored, so a 600 italic is synthesised by the browser, smeared
-   sideways from the regular. The previous stylesheet asked for exactly
-   that.
+   400 ITALIC, NOT 600. Arial has no 600; a 600 italic resolves to its
+   bold italic, which is heavier than a title in running text wants.
    ------------------------------------------------------------ */
 .credits { margin: 0; }
 .credit {
@@ -618,7 +512,6 @@ main > .stage:last-child { margin-bottom: calc(-1 * var(--section)); }
 
 .credit .work {
   display: flex; align-items: baseline; gap: 12px;
-  font-family: "EB Garamond", Georgia, serif;
   font-style: italic; font-size: 1.36rem; font-weight: 400;
   line-height: 1.25;
   color: var(--ink);
@@ -676,7 +569,6 @@ main > .stage:last-child { margin-bottom: calc(-1 * var(--section)); }
 .gallery figcaption { margin: 12px 0 0; line-height: 1.4; }
 .gallery figcaption .work {
   display: block;
-  font-family: "EB Garamond", Georgia, serif;
   font-style: italic; font-size: 1.2rem; font-weight: 400;
 }
 .gallery figcaption .who { display: block; font-size: .86rem; color: var(--muted); }
@@ -801,7 +693,7 @@ main > .stage:last-child { margin-bottom: calc(-1 * var(--section)); }
 .todo::after {
   content: "needs Rachael's update";
   display: block;
-  font-family: "Source Sans 3", sans-serif; font-style: normal;
+  font-style: normal;
   font-size: .72rem; font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--muted);
